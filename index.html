@@ -11,7 +11,7 @@
             margin: 0 auto;
             padding: 20px;
             background-color: transparent !important;
-            color: #37352f;
+            color: var(--notion-text-color, #37352f);
         }
         h1 {
             text-align: center;
@@ -26,7 +26,7 @@
             display: block;
             margin-bottom: 4px;
             font-size: 14px;
-            color: #6b7280;
+            color: var(--notion-gray-text-color, #6b7280);
         }
         input, select, button {
             width: 100%;
@@ -67,10 +67,27 @@
             color: #eb5757;
             font-weight: bold;
         }
-
         .notion-embed {
-          border-radius: 5px !important;
-          overflow: hidden !important;
+            background-color: transparent !important;
+            border-radius: 5px !important;
+            overflow: hidden !important;
+        }
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: var(--notion-text-color, #ffffff);
+            }
+            label {
+                color: var(--notion-gray-text-color, #999999);
+            }
+            input, select {
+                background-color: var(--notion-input-background, #2f3437);
+                color: var(--notion-text-color, #ffffff);
+                border-color: var(--notion-border-color, #4c4c4c);
+            }
+            #result {
+                background-color: var(--notion-code-background, #2f3437);
+                border-color: var(--notion-border-color, #4c4c4c);
+            }
         }
     </style>
 </head>
