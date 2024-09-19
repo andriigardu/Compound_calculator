@@ -51,6 +51,11 @@ input:focus, select:focus {
     background-color: #9966ff; /* Notion's purple color */
     box-shadow: 0 0 0 1px #2eaadc;
 }
+@keyframes buttonClick {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
 button {
     width: 100%;
     padding: 8px;
@@ -74,11 +79,8 @@ button:hover {
     transform-style: preserve-3d;
     perspective: 1000px;
 }
-button:click {
-    scale: 95% !important;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
-    transform-style: preserve-3d;
-    perspective: 1000px;
+button:active {
+    animation: buttonClick 1s ease-in-out;
 }
 
 #result {
@@ -214,8 +216,16 @@ document.querySelector('button').addEventListener('mousemove', function(e) {
     button.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 });
 
+
 document.querySelector('button').addEventListener('mouseleave', function(e) {
     e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+});
+
+document.querySelector('button').addEventListener('click', function(e) {
+    const button = e.currentTarget;
+    button.style.animation = 'none';
+    button.offsetHeight; // Trigger reflow
+    button.style.animation = null;
 });
 </script>
 </body>
