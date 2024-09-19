@@ -1,175 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compound Interest Calculator</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: transparent !important;
-            color: var(--notion-text-color, #37352f);
-        }
-        h1 {
-            text-align: center;
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--notion-text-color, #37352f);
-        }
-        .input-group {
-            margin-bottom: 16px;
-        }
-        label {
-            display: block;
-            margin-bottom: 4px;
-            font-size: 14px;
-            color: var(--notion-gray-text-color, #6b7280);
-        }
-        input, select {
-            width: 100%;
-            padding: 8px;
-            font-size: 14px;
-            border: 1px solid #e5e5e5;
-            border-radius: 3px;
-            color: var(--notion-text-color, #37352f);
-            background-color: var(--notion-input-background, #ffffff);
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 8px;
-            font-size: 14px;
-            border-radius: 3px;
-            margin: 20px 0;
-            background-color: #2eaadc;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        button:hover {
-            background-color: #2180a3;
-        }
-        #result {
-            font-weight: 500;
-            text-align: left;
-            margin-top: 20px;
-            padding: 16px;
-            border: 1px solid #e5e5e5;
-            border-radius: 3px;
-            background-color: var(--notion-code-background, #f7f6f3);
-            color: var(--notion-text-color, #37352f);
-            box-sizing: border-box;
-            width: 100%;
-        }
-        .positive {
-            color: #0f7b6c;
-            font-weight: bold;
-        }
-        .negative {
-            color: #eb5757;
-            font-weight: bold;
-        }
-        .notion-embed {
-            background-color: transparent !important;
-            border-radius: 5px !important;
-            overflow: hidden !important;
-        }
-        @media (prefers-color-scheme: dark) {
-            body {
-                color: var(--notion-text-color, #ffffff);
-            }
-            
-            h1 {
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compound Interest Calculator</title>
+<style>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: transparent !important;
+    color: var(--notion-text-color, #37352f);
+}
+h1 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--notion-text-color, #37352f);
+}
+.input-group {
+    margin-bottom: 16px;
+}
+label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: var(--notion-gray-text-color, #6b7280);
+}
+input, select {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    color: var(--notion-text-color, #37352f);
+    background-color: var(--notion-input-background, #f7f6f3);
+    box-sizing: border-box;
+}
+button {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 3px;
+    margin: 20px 0;
+    background-color: #2eaadc;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+button:hover {
+    background-color: #2180a3;
+}
+#result {
+    font-weight: 500;
+    text-align: left;
+    margin-top: 20px;
+    padding: 16px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    background-color: var(--notion-code-background, #f7f6f3);
+    color: var(--notion-text-color, #37352f);
+    box-sizing: border-box;
+    width: 100%;
+}
+.positive {
+    color: #0f7b6c;
+    font-weight: bold;
+}
+.negative {
+    color: #eb5757;
+    font-weight: bold;
+}
+.notion-embed {
+    background-color: transparent !important;
+    border-radius: 5px !important;
+    overflow: hidden !important;
+}
+@media (prefers-color-scheme: dark) {
+    body {
         color: var(--notion-text-color, #ffffff);
-            }
-            
-            label {
-                color: var(--notion-gray-text-color, #999999);
-            }
-            
-            input, select {
-                color: var(--notion-text-color, #ffffff);
-                background-color: var(--notion-input-background, #2f3437);
-                border-color: var(--notion-border-color, #4c4c4c);
-            }
-            
-            #result {
-                background-color: var(--notion-code-background, #2f3437);
-                color: var(--notion-text-color, #ffffff);
-            }
-        }
-    </style>
+    }
+    h1 {
+        color: var(--notion-text-color, #ffffff);
+    }
+    label {
+        color: var(--notion-gray-text-color, #999999);
+    }
+    input, select {
+        color: var(--notion-text-color, #ffffff);
+        background-color: var(--notion-input-background, #2f3437);
+        border-color: var(--notion-border-color, #4c4c4c);
+    }
+    #result {
+        background-color: var(--notion-code-background, #2f3437);
+        color: var(--notion-text-color, #ffffff);
+    }
+}
+</style>
 </head>
 <body>
-    <h1>Compound Interest Calculator</h1>
-    <div class="input-group">
-        <label for="principal">Current Principal ($)</label>
-        <input type="number" id="principal" value="1000">
-    </div>
-    <div class="input-group">
-        <label for="annualAddition">Annual Addition ($)</label>
-        <input type="number" id="annualAddition" value="0">
-    </div>
-    <div class="input-group">
-        <label for="years">Years to Grow</label>
-        <input type="number" id="years" value="10">
-    </div>
-    <div class="input-group">
-        <label for="rate">Growth Rate (%)</label>
-        <input type="number" id="rate" value="8">
-    </div>
-    <div class="input-group">
-        <label for="compound">Compound Frequency</label>
-        <select id="compound">
-            <option value="1">Annually</option>
-            <option value="2">Semi-Annually</option>
-            <option value="4">Quarterly</option>
-            <option value="12">Monthly</option>
-            <option value="365">Daily</option>
-        </select>
-    </div>
-    <button onclick="calculate()">Calculate</button>
-    <div id="result">
-        <div>Future Value: <span id="futureValue">-</span></div>
-        <div>Total Interest: <span id="totalInterest">-</span></div>
-        <div>ROI: <span id="roi">-</span></div>
-    </div>
+<h1>Compound Interest Calculator</h1>
+<div class="input-group">
+    <label for="principal">Current Principal ($)</label>
+    <input type="number" id="principal" value="1000">
+</div>
+<div class="input-group">
+    <label for="annualAddition">Annual Addition ($)</label>
+    <input type="number" id="annualAddition" value="0">
+</div>
+<div class="input-group">
+    <label for="years">Years to Grow</label>
+    <input type="number" id="years" value="10">
+</div>
+<div class="input-group">
+    <label for="rate">Growth Rate (%)</label>
+    <input type="number" id="rate" value="8">
+</div>
+<div class="input-group">
+    <label for="compound">Compound Frequency</label>
+    <select id="compound">
+        <option value="1">Annually</option>
+        <option value="2">Semi-Annually</option>
+        <option value="4">Quarterly</option>
+        <option value="12">Monthly</option>
+        <option value="365">Daily</option>
+    </select>
+</div>
+<button onclick="calculate()">Calculate</button>
+<div id="result">
+    <div>Future Value: <span id="futureValue">-</span></div>
+    <div>Total Interest: <span id="totalInterest">-</span></div>
+    <div>ROI: <span id="roi">-</span></div>
+</div>
 
-    <script>
-        function calculate() {
-            const principal = parseFloat(document.getElementById('principal').value);
-            const annualAddition = parseFloat(document.getElementById('annualAddition').value);
-            const years = parseFloat(document.getElementById('years').value);
-            const rate = parseFloat(document.getElementById('rate').value) / 100;
-            const compound = parseFloat(document.getElementById('compound').value);
+<script>
+function calculate() {
+    const principal = parseFloat(document.getElementById('principal').value);
+    const annualAddition = parseFloat(document.getElementById('annualAddition').value);
+    const years = parseFloat(document.getElementById('years').value);
+    const rate = parseFloat(document.getElementById('rate').value) / 100;
+    const compound = parseFloat(document.getElementById('compound').value);
 
-            let amount = principal;
-            for (let i = 0; i < years; i++) {
-                amount = amount * (1 + rate/compound)**compound + annualAddition;
-            }
-            const interest = amount - principal - (annualAddition * years);
-            const roi = calculateROI(principal, annualAddition, years, amount);
+    let amount = principal;
+    for (let i = 0; i < years; i++) {
+        amount = amount * (1 + rate/compound)**compound + annualAddition;
+    }
+    const interest = amount - principal - (annualAddition * years);
+    const roi = calculateROI(principal, annualAddition, years, amount);
 
-            document.getElementById('futureValue').innerHTML = `<span class="${amount >= 0 ? 'positive' : 'negative'}">$${formatNumber(amount.toFixed(2))}</span>`;
-            document.getElementById('totalInterest').innerHTML = `<span class="${interest >= 0 ? 'positive' : 'negative'}">$${formatNumber(interest.toFixed(2))}</span>`;
-            document.getElementById('roi').innerHTML = `<span class="${roi >= 0 ? 'positive' : 'negative'}">${roi.toFixed(2)}%</span>`;
-        }
+    document.getElementById('futureValue').innerHTML = `<span class="${amount >= 0 ? 'positive' : 'negative'}">$${formatNumber(amount.toFixed(2))}</span>`;
+    document.getElementById('totalInterest').innerHTML = `<span class="${interest >= 0 ? 'positive' : 'negative'}">$${formatNumber(interest.toFixed(2))}</span>`;
+    document.getElementById('roi').innerHTML = `<span class="${roi >= 0 ? 'positive' : 'negative'}">${roi.toFixed(2)}%</span>`;
+}
 
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
+function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
-        function calculateROI(principal, annualAddition, years, finalAmount) {
-            const totalInvestment = principal + (annualAddition * years);
-            const gain = finalAmount - totalInvestment;
-            const roi = (gain / totalInvestment) * 100;
-            return roi;
-        }
-    </script>
+function calculateROI(principal, annualAddition, years, finalAmount) {
+    const totalInvestment = principal + (annualAddition * years);
+    const gain = finalAmount - totalInvestment;
+    const roi = (gain / totalInvestment) * 100;
+    return roi;
+}
+</script>
 </body>
 </html>
