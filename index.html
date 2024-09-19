@@ -105,15 +105,24 @@
                 amount = amount * (1 + rate/compound)**compound + annualAddition;
             }
             const interest = amount - principal - (annualAddition * years);
+            const roi = calculateROI(principal, annualAddition, years, amount);
 
             document.getElementById('result').innerHTML = `
                 <div>Future Value: $${formatNumber(amount.toFixed(2))}</div>
                 <div>Total Interest: $${formatNumber(interest.toFixed(2))}</div>
+                <div>ROI: ${roi.toFixed(2)}%</div>
             `;
         }
 
         function formatNumber(num) {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function calculateROI(principal, annualAddition, years, finalAmount) {
+            const totalInvestment = principal + (annualAddition * years);
+            const gain = finalAmount - totalInvestment;
+            const roi = (gain / totalInvestment) * 100;
+            return roi;
         }
     </script>
 </body>
