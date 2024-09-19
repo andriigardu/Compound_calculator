@@ -269,46 +269,30 @@ function createParticle(x, y) {
     animate();
 }
 
-function emitParticles(e) {
-    const button = e.currentTarget;
+let particleInterval;
+
+function emitParticles(button) {
     const rect = button.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
 
-    for (let i = 0; i < 20; i++) {
-        let x, y;
-        const side = Math.floor(Math.random() * 4);
+    for (let i = 0; i < 3; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * 20;
+        const x = centerX + Math.cos(angle) * distance;
+        const y = centerY + Math.sin(angle) * distance;
 
-        switch(side) {
-            case 0: // top
-                x = Math.random() * rect.width;
-                y = 0;
-                break;
-            case 1: // right
-                x = rect.width;
-                y = Math.random() * rect.height;
-                break;
-            case 2: // bottom
-                x = Math.random() * rect.width;
-                y = rect.height;
-                break;
-            case 3: // left
-                x = 0;
-                y = Math.random() * rect.height;
-                break;
-        }
-
-        createParticle(rect.left + x, rect.top + y);
+        createParticle(x, y);
     }
 }
 
-let particleInterval;
-
 document.querySelector('button').addEventListener('mouseenter', function(e) {
     const button = e.currentTarget;
-    particleInterval = setInterval(() => emitParticles(button), 50); // Constantly emit particles
+    particleInterval = setInterval(() => emitParticles(button), 50); // Emit particles every 50ms
 });
 
 document.querySelector('button').addEventListener('mouseleave', function() {
-    clearInterval(particleInterval);
+   clearInterval(particleInterval);
 });
 
 document.querySelector('button').addEventListener('mousemove', function(e) {
