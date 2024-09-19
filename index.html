@@ -59,6 +59,14 @@
             box-sizing: border-box;
             width: 100%;
         }
+        .positive {
+            color: #0f7b6c;
+            font-weight: bold;
+        }
+        .negative {
+            color: #eb5757;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -108,9 +116,9 @@
             const roi = calculateROI(principal, annualAddition, years, amount);
 
             document.getElementById('result').innerHTML = `
-                <div>Future Value: $${formatNumber(amount.toFixed(2))}</div>
-                <div>Total Interest: $${formatNumber(interest.toFixed(2))}</div>
-                <div>ROI: ${roi.toFixed(2)}%</div>
+                <div>Future Value: <span class="${amount >= 0 ? 'positive' : 'negative'}">$${formatNumber(amount.toFixed(2))}</span></div>
+                <div>Total Interest: <span class="${interest >= 0 ? 'positive' : 'negative'}">$${formatNumber(interest.toFixed(2))}</span></div>
+                <div>ROI: <span class="${roi >= 0 ? 'positive' : 'negative'}">${roi.toFixed(2)}%</span></div>
             `;
         }
 
