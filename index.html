@@ -6,60 +6,83 @@
     <title>Compound Interest Calculator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #ffffff;
+            color: #37352f;
         }
         h1 {
             text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
         .input-group {
-            margin-bottom: 10px;
+            margin-bottom: 16px;
         }
         label {
-            display: inline-block;
-            width: 200px;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+            color: #6b7280;
         }
-        input {
-            width: 200px;
+        input, select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #e5e5e5;
+            border-radius: 3px;
+            background-color: #ffffff;
         }
         button {
             display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #4CAF50;
+            width: 100%;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #2eaadc;
             color: white;
             border: none;
+            border-radius: 3px;
             cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        button:hover {
+            background-color: #2180a3;
         }
         #result {
-            font-weight: bold;
-            text-align: center;
+            font-weight: 500;
+            text-align: left;
             margin-top: 20px;
+            padding: 16px;
+            border: 1px solid #e5e5e5;
+            border-radius: 3px;
+            background-color: #f7f6f3;
         }
     </style>
 </head>
 <body>
     <h1>Compound Interest Calculator</h1>
     <div class="input-group">
-        <label for="principal">Current Principal ($):</label>
+        <label for="principal">Current Principal ($)</label>
         <input type="number" id="principal" value="1000">
     </div>
     <div class="input-group">
-        <label for="annualAddition">Annual Addition ($):</label>
+        <label for="annualAddition">Annual Addition ($)</label>
         <input type="number" id="annualAddition" value="0">
     </div>
     <div class="input-group">
-        <label for="years">Years to Grow:</label>
+        <label for="years">Years to Grow</label>
         <input type="number" id="years" value="10">
     </div>
     <div class="input-group">
-        <label for="rate">Growth Rate (%):</label>
+        <label for="rate">Growth Rate (%)</label>
         <input type="number" id="rate" value="8">
     </div>
     <div class="input-group">
-        <label for="compound">Compound Frequency:</label>
+        <label for="compound">Compound Frequency</label>
         <select id="compound">
             <option value="1">Annually</option>
             <option value="2">Semi-Annually</option>
@@ -86,9 +109,13 @@
             const interest = amount - principal - (annualAddition * years);
 
             document.getElementById('result').innerHTML = `
-                Future Value: $${amount.toFixed(2)}<br>
-                Total Interest: $${interest.toFixed(2)}
+                <div>Future Value: $${formatNumber(amount.toFixed(2))}</div>
+                <div>Total Interest: $${formatNumber(interest.toFixed(2))}</div>
             `;
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     </script>
 </body>
