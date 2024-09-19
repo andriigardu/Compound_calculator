@@ -94,44 +94,23 @@
 
     <script>
         function calculate() {
-  const principal = Number(document.getElementById('principal').value);
-  const interestRate = Number(document.getElementById('interestRate').value);
-  const years = Number(document.getElementById('years').value);
-  const contributions = Number(document.getElementById('contributions').value);
-  const paymentFrequency = Number(document.getElementById('paymentFrequency').value);
-  const inflationRate = Number(document.getElementById('inflationRate').value);
-  const taxRate = Number(document.getElementById('taxRate').value);
+            const principal = parseFloat(document.getElementById('principal').value);
+            const annualAddition = parseFloat(document.getElementById('annualAddition').value);
+            const years = parseFloat(document.getElementById('years').value);
+            const rate = parseFloat(document.getElementById('rate').value) / 100;
+            const compound = parseFloat(document.getElementById('compound').value);
 
-  let futureValue = principal;
-  let totalContributions = 0;
+            let amount = principal;
+            for (let i = 0; i < years; i++) {
+                amount = amount * (1 + rate/compound)**compound + annualAddition;
+            }
+            const interest = amount - principal - (annualAddition * years);
 
-  for (let i = 1; i <= years; i++) {
-    let annualInterestRate = interestRate * (1 - (taxRate / 100));
-    let annualContributions = contributions;
-
-    futureValue *= (1 + (annualInterestRate / 100));
-    futureValue *= (1 + (inflationRate / 100));
-    
-    for (let j = 0; j < paymentFrequency; j++) {
-      let periodicPayment = annualContributions / paymentFrequency;
-      futureValue += periodicPayment;
-      futureValue *= (1 + ((annualInterestRate / 100) / paymentFrequency));
-    }
-
-    totalContributions += annualContributions;
-  }
-
-  let totalInterest = futureValue - principal - totalContributions;
-  let totalInvestment = principal + totalContributions;
-  let roi = ((futureValue - totalInvestment) / totalInvestment) * 100;
-
-  document.getElementById('result').innerHTML = `
-    <p>Investment value at end year: $${formatNumber(futureValue.toFixed(2))}</p>
-    <p>Total contributions: $${formatNumber(totalContributions.toFixed(2))}</p>
-    <p>Total interest earned: $${formatNumber(totalInterest.toFixed(2))}</p>
-    <p>Return on Investment (ROI): ${roi.toFixed(2)}%</p>
-  `;
-}
+            document.getElementById('result').innerHTML = `
+                <div>Future Value: $${formatNumber(amount.toFixed(2))}</div>
+                <div>Total Interest: $${formatNumber(interest.toFixed(2))}</div>
+            `;
+        }
 
         function formatNumber(num) {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
