@@ -101,30 +101,23 @@
   const paymentFrequency = Number(document.getElementById('paymentFrequency').value);
   const inflationRate = Number(document.getElementById('inflationRate').value);
   const taxRate = Number(document.getElementById('taxRate').value);
-  const startYear = Number(document.getElementById('startYear').value);
-  const endYear = Number(document.getElementById('endYear').value);
 
   let futureValue = principal;
   let totalContributions = 0;
 
-  for (let i = startYear; i <= endYear; i++) {
-    let annualInterestRate = interestRate;
+  for (let i = 1; i <= years; i++) {
+    let annualInterestRate = interestRate * (1 - (taxRate / 100));
     let annualContributions = contributions;
 
-    if (i > startYear) {
-      futureValue += futureValue * (inflationRate / 100);
-      annualInterestRate *= (1 - (taxRate / 100));
-      annualContributions *= (1 - (taxRate / 100));
+    futureValue *= (1 + (annualInterestRate / 100));
+    futureValue *= (1 + (inflationRate / 100));
+    
+    for (let j = 0; j < paymentFrequency; j++) {
+      let periodicPayment = annualContributions / paymentFrequency;
+      futureValue += periodicPayment;
+      futureValue *= (1 + ((annualInterestRate / 100) / paymentFrequency));
     }
 
-    let periods = years * paymentFrequency;
-    let rate = annualInterestRate / paymentFrequency / 100;
-
-    let periodicPayment = annualContributions / paymentFrequency;
-    let futureValueFactor = (1 + rate) ** periods;
-    let periodicPaymentFactor = (((1 + rate) ** periods) - 1) / rate;
-
-    futureValue += periodicPayment * periodicPaymentFactor * futureValueFactor;
     totalContributions += annualContributions;
   }
 
@@ -133,9 +126,9 @@
   let roi = ((futureValue - totalInvestment) / totalInvestment) * 100;
 
   document.getElementById('result').innerHTML = `
-    <p>Investment value at end year: $${futureValue.toFixed(2)}</p>
-    <p>Total contributions: $${totalContributions.toFixed(2)}</p>
-    <p>Total interest earned: $${totalInterest.toFixed(2)}</p>
+    <p>Investment value at end year: $${formatNumber(futureValue.toFixed(2))}</p>
+    <p>Total contributions: $${formatNumber(totalContributions.toFixed(2))}</p>
+    <p>Total interest earned: $${formatNumber(totalInterest.toFixed(2))}</p>
     <p>Return on Investment (ROI): ${roi.toFixed(2)}%</p>
   `;
 }
