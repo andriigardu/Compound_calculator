@@ -46,6 +46,11 @@ input, select {
     background-color: var(--notion-input-background, #f7f6f3);
     box-sizing: border-box;
 }
+input:focus, select:focus {
+    outline: none;
+    border-color: #2eaadc;
+    box-shadow: 0 0 0 1px #2eaadc;
+}
 button {
     width: 100%;
     padding: 8px;
@@ -61,6 +66,7 @@ button {
 button:hover {
     background-color: #2180a3;
 }
+
 #result {
     font-weight: 500;
     text-align: left;
@@ -72,6 +78,11 @@ button:hover {
     color: var(--notion-text-color, #37352f);
     box-sizing: border-box;
     width: 100%;
+}
+#result:focus-within {
+    outline: none;
+    border-color: #2eaadc;
+    box-shadow: 0 0 0 1px #2eaadc;
 }
 .positive {
     color: #0f7b6c;
