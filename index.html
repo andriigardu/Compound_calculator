@@ -34,7 +34,8 @@
             font-size: 14px;
             border: 1px solid #e5e5e5;
             border-radius: 3px;
-            background-color: #ffffff;
+            background-color: var(--notion-input-background, #ffffff);
+            color: var(--notion-text-color, #37352f);
             box-sizing: border-box;
         }
         button {
@@ -55,7 +56,7 @@
             padding: 16px;
             border: 1px solid #e5e5e5;
             border-radius: 3px;
-            background-color: #f7f6f3;
+            background-color: var(--notion-code-background, #f7f6f3);
             box-sizing: border-box;
             width: 100%;
         }
@@ -120,7 +121,11 @@
         </select>
     </div>
     <button onclick="calculate()">Calculate</button>
-    <div id="result"></div>
+    <div id="result">
+        <div>Future Value: <span id="futureValue">-</span></div>
+        <div>Total Interest: <span id="totalInterest">-</span></div>
+        <div>ROI: <span id="roi">-</span></div>
+    </div>
 
     <script>
         function calculate() {
@@ -137,11 +142,9 @@
             const interest = amount - principal - (annualAddition * years);
             const roi = calculateROI(principal, annualAddition, years, amount);
 
-            document.getElementById('result').innerHTML = `
-                <div>Future Value: <span class="${amount >= 0 ? 'positive' : 'negative'}">$${formatNumber(amount.toFixed(2))}</span></div>
-                <div>Total Interest: <span class="${interest >= 0 ? 'positive' : 'negative'}">$${formatNumber(interest.toFixed(2))}</span></div>
-                <div>ROI: <span class="${roi >= 0 ? 'positive' : 'negative'}">${roi.toFixed(2)}%</span></div>
-            `;
+            document.getElementById('futureValue').innerHTML = `<span class="${amount >= 0 ? 'positive' : 'negative'}">$${formatNumber(amount.toFixed(2))}</span>`;
+            document.getElementById('totalInterest').innerHTML = `<span class="${interest >= 0 ? 'positive' : 'negative'}">$${formatNumber(interest.toFixed(2))}</span>`;
+            document.getElementById('roi').innerHTML = `<span class="${roi >= 0 ? 'positive' : 'negative'}">${roi.toFixed(2)}%</span>`;
         }
 
         function formatNumber(num) {
