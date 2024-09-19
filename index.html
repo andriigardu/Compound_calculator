@@ -71,6 +71,15 @@ button:hover {
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     scale: 95%;
     filter: drop-shadow(0 0 10px rgba(153, 102, 255, 0.5));
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+button:click {
+    scale: 85%;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
 }
 
 #result {
