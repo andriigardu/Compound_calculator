@@ -73,6 +73,7 @@ button {
     perspective: 500px;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 button::before {
@@ -227,16 +228,10 @@ document.querySelector('button').addEventListener('mousemove', function(e) {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const maxDistance = Math.max(centerX, centerY);
-    const distanceX = Math.abs(x - centerX);
-    const distanceY = Math.abs(y - centerY);
-    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+    const shadowX = (x - centerX) / 50; // Reduced movement
+    const shadowY = (y - centerY) / 50; // Reduced movement
 
-    const shadowX = (x - centerX) / 10;
-    const shadowY = (y - centerY) / 10;
-    const shadowBlur = 15 * (1 - distance / maxDistance);
-
-    button.style.boxShadow = `${shadowX}px ${shadowY}px ${shadowBlur}px rgba(153, 102, 255, 0.3)`;
+    button.style.boxShadow = `${shadowX}px ${shadowY}px 10px rgba(153, 102, 255, 0.3)`;
 });
 
 document.querySelector('button').addEventListener('mouseleave', function(e) {
