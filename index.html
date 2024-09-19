@@ -18,6 +18,7 @@
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 20px;
+            color: var(--notion-text-color, #37352f);
         }
         .input-group {
             margin-bottom: 16px;
@@ -34,7 +35,8 @@
             font-size: 14px;
             border: 1px solid #e5e5e5;
             border-radius: 3px;
-            background-color: var(--notion-code-background, #f7f6f3) !important;
+            color: var(--notion-text-color, #37352f);
+            background-color: var(--notion-input-background, #ffffff);
             box-sizing: border-box;
         }
         button {
@@ -60,6 +62,7 @@
             border: 1px solid #e5e5e5;
             border-radius: 3px;
             background-color: var(--notion-code-background, #f7f6f3);
+            color: var(--notion-text-color, #37352f);
             box-sizing: border-box;
             width: 100%;
         }
@@ -80,17 +83,24 @@
             body {
                 color: var(--notion-text-color, #ffffff);
             }
+            
+            h1 {
+        color: var(--notion-text-color, #ffffff);
+            }
+            
             label {
                 color: var(--notion-gray-text-color, #999999);
             }
+            
             input, select {
-                background-color: var(--notion-input-background, #2f3437);
                 color: var(--notion-text-color, #ffffff);
+                background-color: var(--notion-input-background, #2f3437);
                 border-color: var(--notion-border-color, #4c4c4c);
             }
+            
             #result {
                 background-color: var(--notion-code-background, #2f3437);
-                border-color: var(--notion-border-color, #4c4c4c);
+                color: var(--notion-text-color, #ffffff);
             }
         }
     </style>
