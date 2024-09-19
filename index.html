@@ -43,16 +43,20 @@
 <body>
     <h1>Compound Interest Calculator</h1>
     <div class="input-group">
-        <label for="principal">Principal Amount ($):</label>
+        <label for="principal">Current Principal ($):</label>
         <input type="number" id="principal" value="1000">
     </div>
     <div class="input-group">
-        <label for="rate">Annual Interest Rate (%):</label>
-        <input type="number" id="rate" value="8">
+        <label for="annualAddition">Annual Addition ($):</label>
+        <input type="number" id="annualAddition" value="0">
     </div>
     <div class="input-group">
-        <label for="time">Time Period (years):</label>
-        <input type="number" id="time" value="10">
+        <label for="years">Years to Grow:</label>
+        <input type="number" id="years" value="10">
+    </div>
+    <div class="input-group">
+        <label for="rate">Growth Rate (%):</label>
+        <input type="number" id="rate" value="8">
     </div>
     <div class="input-group">
         <label for="compound">Compound Frequency:</label>
@@ -70,15 +74,19 @@
     <script>
         function calculate() {
             const principal = parseFloat(document.getElementById('principal').value);
+            const annualAddition = parseFloat(document.getElementById('annualAddition').value);
+            const years = parseFloat(document.getElementById('years').value);
             const rate = parseFloat(document.getElementById('rate').value) / 100;
-            const time = parseFloat(document.getElementById('time').value);
             const compound = parseFloat(document.getElementById('compound').value);
 
-            const amount = principal * Math.pow((1 + rate/compound), (compound * time));
-            const interest = amount - principal;
+            let amount = principal;
+            for (let i = 0; i < years; i++) {
+                amount = amount * (1 + rate/compound)**compound + annualAddition;
+            }
+            const interest = amount - principal - (annualAddition * years);
 
             document.getElementById('result').innerHTML = `
-                Final Amount: $${amount.toFixed(2)}<br>
+                Future Value: $${amount.toFixed(2)}<br>
                 Total Interest: $${interest.toFixed(2)}
             `;
         }
