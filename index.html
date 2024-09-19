@@ -216,9 +216,13 @@ function calculateROI(principal, annualAddition, years, finalAmount) {
     const roi = (gain / totalInvestment) * 100;
     return roi;
 }
-document.querySelector('button').addEventListener('mousemove', function(e) {
-    const button = e.currentTarget;
-    const rect = button.getBoundingClientRect();
+const button = document.querySelector('button');
+let isHovering = false;
+
+button.addEventListener('mousemove', function(e) {
+    if (!isHovering) return;
+
+    const rect = this.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
@@ -228,25 +232,42 @@ document.querySelector('button').addEventListener('mousemove', function(e) {
     const rotateX = (y - centerY) / 10;
     const rotateY = (centerX - x) / 10;
     
-    button.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
     // Update highlight position
-    const highlightX = Math.max(0, Math.min(x - 50, rect.width - 100));
-    const highlightY = Math.max(0, Math.min(y - 50, rect.height - 100));
-    button.style.setProperty('--highlight-x', `${highlightX}px`);
-    button.style.setProperty('--highlight-y', `${highlightY}px`);
+    const highlightX = x - 50;
+    const highlightY = y - 50;
+    this.style.setProperty('--highlight-x', `${highlightX}px`);
+    this.style.setProperty('--highlight-y', `${highlightY}px`);
 });
 
-
-document.querySelector('button').addEventListener('mouseleave', function(e) {
-    e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+button.addEventListener('mouseenter', function() {
+    isHovering = true;
 });
 
-document.querySelector('button').addEventListener('click', function(e) {
-    const button = e.currentTarget;
-    button.style.animation = 'none';
-    button.offsetHeight; // Trigger reflow
-    button.style.animation = null;
+button.addEventListener('mouseleave', function() {
+    isHovering = false;
+    this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+    this.style.setProperty('--highlight-x', '50%');
+    this.style.setProperty('--highlight-y', '0%');
+});
+
+button.addEventListener('click', function() {
+    this.style.transform = 'perspective(1000px) scale(0.95)';
+    setTimeout(() => {
+        if (isHovering) {
+            const rect = this.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        } else {
+            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        }
+    }, 100);
 });
 </script>
 </body>
