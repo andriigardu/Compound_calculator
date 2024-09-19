@@ -62,27 +62,41 @@ button {
     font-size: 14px;
     border-radius: 3px;
     margin: 20px 0;
-    background-color: #9966ff; /* Notion's purple color */
+    background-color: #9966ff;
     color: white;
     border: none;
     cursor: pointer;
     font-weight: 500;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    transition: all 0.3s ease-in-out;
     transform-style: preserve-3d;
     perspective: 1000px;
-}
-button:hover {
-    background-color: #7f52ff; /* A slightly darker shade for hover effect */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    filter: drop-shadow(0 0 10px rgba(153, 102, 255, 0.5));
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-}
-button:active {
-    animation: buttonClick 0.1s ease-in-out;
+    position: relative;
+    overflow: hidden;
 }
 
+button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+button:hover::before {
+    opacity: 1;
+}
+
+button:hover {
+    background-color: #aa85ff;
+}
+
+button:active {
+    animation: buttonClick 1s ease-in-out;
+}
 #result {
     font-weight: 500;
     text-align: left;
