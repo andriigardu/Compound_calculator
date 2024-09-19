@@ -77,13 +77,13 @@ button {
 button::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 5%;
-    height: 6%;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
 }
 
 button:hover::before {
@@ -95,8 +95,11 @@ button:hover {
 }
 
 button:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 15px rgba(153, 102, 255, 0.7);
     animation: buttonClick 0.2s ease-in-out;
 }
+
 #result {
     font-weight: 500;
     text-align: left;
@@ -228,6 +231,12 @@ document.querySelector('button').addEventListener('mousemove', function(e) {
     const rotateY = (centerX - x) / 10;
     
     button.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+    // Update highlight position
+    const highlightX = Math.max(0, Math.min(x - 50, rect.width - 100));
+    const highlightY = Math.max(0, Math.min(y - 50, rect.height - 100));
+    button.style.setProperty('--highlight-x', `${highlightX}px`);
+    button.style.setProperty('--highlight-y', `${highlightY}px`);
 });
 
 
