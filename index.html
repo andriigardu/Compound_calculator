@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Color Generator</title>
+<title>Compound Interest Calculator</title>
 <style>
 :root {
     --notion-text-color: #37352f;
@@ -11,11 +11,10 @@
     --notion-input-background: #f7f6f3;
     --notion-code-background: #f7f6f3;
     --notion-border-color: #e5e5e5;
-    --notion-accent-color: #9966ff;
 }
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    max-width: 600px;
+    max-width: 400px;
     margin: 0 auto;
     padding: 20px;
     background-color: transparent !important;
@@ -28,10 +27,6 @@ h1 {
     margin-bottom: 20px;
     color: var(--notion-text-color, #37352f)!important;
 }
-.container {
-    display: flex;
-    gap: 20px;
-}
 .input-group {
     margin-bottom: 16px;
 }
@@ -41,62 +36,119 @@ label {
     font-size: 14px;
     color: var(--notion-gray-text-color, #6b7280);
 }
-input {
+input, select {
     width: 100%;
     padding: 8px;
     font-size: 14px;
-    border: 1px solid var(--notion-border-color, #e5e5e5);
+    border: 1px solid #e5e5e5;
     border-radius: 3px;
     color: var(--notion-text-color, #37352f);
     background-color: var(--notion-input-background, #f7f6f3);
     box-sizing: border-box;
 }
-input:focus {
+input:focus, select:focus {
     outline: none;
-    border-color: var(--notion-accent-color, #9966ff);
+    border-color: #9966ff; /* Notion's purple color */
     box-shadow: 0 0 0 1px #2eaadc;
 }
-.inputs {
-    flex: 1;
+@keyframes buttonClick {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
 }
-.color-preview-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+#particleContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1;
 }
-.color-preview {
-    width: 100%;
-    max-width: 150px;
-    height: 150px;
-    margin-bottom: 10px;
-    border: 2px solid #e5e5e5;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+.particle {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  pointer-events: none;
 }
 button {
     width: 100%;
-    max-width: 150px;
     padding: 8px;
     font-size: 14px;
     border-radius: 3px;
-    background-color: var(--notion-accent-color, #9966ff);
+    margin: 20px 0;
+    background-color: #9966ff;
     color: white;
     border: none;
     cursor: pointer;
     font-weight: 500;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 3px 6px rgba(153, 102, 255, 0.3);
+    transform-style: preserve-3d;
+    perspective: 500px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
 }
+
+button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 20%);
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+button:hover::before {
+    opacity: 0.7;
+}
+
 button:hover {
-    background-color: #7f4ad9;
-    box-shadow: 0 5px 10px rgba(153, 102, 255, 0.5);
+    background-color: dark purple;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(153, 102, 255, 0.5);
 }
+
 button:active {
-    transform: scale(0.98);
+    animation: buttonClick 0.1s ease-in-out;
+}
+
+#result {
+    font-weight: 500;
+    text-align: left;
+    margin-top: 20px;
+    padding: 16px;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    background-color: var(--notion-code-background, #f7f6f3);
+    color: var(--notion-text-color, #37352f);
+    box-sizing: border-box;
+    width: 100%;
+}
+#result:focus-within {
+    outline: none;
+    border-color: #2eaadc;
+    box-shadow: 0 0 0 1px #2eaadc;
+}
+.positive {
+    color: #0f7b6c;
+    font-weight: bold;
+}
+.negative {
+    color: #eb5757;
+    font-weight: bold;
+}
+.notion-embed {
+    background-color: transparent !important;
+    border-radius: 5px !important;
+    overflow: hidden !important;
 }
 @media (prefers-color-scheme: dark) {
+   
     body {
         color: var(--notion-text-color, #ffffff);
     }
@@ -106,86 +158,216 @@ button:active {
     label {
         color: var(--notion-gray-text-color, #999999);
     }
-    input {
+    input, select {
         color: var(--notion-text-color, #ffffff);
         background-color: var(--notion-input-background, #2f3437);
         border-color: var(--notion-border-color, #4c4c4c);
     }
-    .color-preview {
-        border-color: var(--notion-border-color, #4c4c4c);
+    #result {
+        background-color: var(--notion-code-background, #2f3437);
+        color: var(--notion-text-color, #ffffff);
     }
 }
 </style>
 </head>
 <body>
-<h1>Color Generator</h1>
-<div class="container">
-    <div class="inputs">
-        <div class="input-group">
-            <label for="hue">Hue (0-360)</label>
-            <input type="number" id="hue" value="180" min="0" max="360">
-        </div>
-        <div class="input-group">
-            <label for="saturation">Saturation (0-100%)</label>
-            <input type="number" id="saturation" value="50" min="0" max="100">
-        </div>
-        <div class="input-group">
-            <label for="brightness">Brightness (0-100%)</label>
-            <input type="number" id="brightness" value="50" min="0" max="100">
-        </div>
-    </div>
-    <div class="color-preview-container">
-        <div class="color-preview" id="colorPreview"></div>
-        <button id="copyButton">Copy HEX</button>
-    </div>
+<h1>Compound Interest Calculator</h1>
+<div class="input-group">
+    <label for="principal">Current Principal ($)</label>
+    <input type="number" id="principal" value="1000">
+</div>
+<div class="input-group">
+    <label for="annualAddition">Annual Addition ($)</label>
+    <input type="number" id="annualAddition" value="0">
+</div>
+<div class="input-group">
+    <label for="years">Years to Grow</label>
+    <input type="number" id="years" value="10">
+</div>
+<div class="input-group">
+    <label for="rate">Growth Rate (%)</label>
+    <input type="number" id="rate" value="8">
+</div>
+<div class="input-group">
+    <label for="compound">Compound Frequency</label>
+    <select id="compound">
+        <option value="1">Annually</option>
+        <option value="2">Semi-Annually</option>
+        <option value="4">Quarterly</option>
+        <option value="12">Monthly</option>
+        <option value="365">Daily</option>
+    </select>
+</div>
+<button onclick="calculate()">Calculate</button>
+<div id="particleContainer"></div>
+<div id="result">
+    <div>Future Value: <span id="futureValue">-</span></div>
+    <div>Total Interest: <span id="totalInterest">-</span></div>
+    <div>ROI: <span id="roi">-</span></div>
 </div>
 
 <script>
-function hsbToRgb(h, s, b) {
-    s /= 100;
-    b /= 100;
-    const k = (n) => (n + h / 60) % 6;
-    const f = (n) => b * (1 - s * Math.max(0, Math.min(k(n), 4 - k(n), 1)));
-    const r = Math.round(255 * f(5));
-    const g = Math.round(255 * f(3));
-    const b2 = Math.round(255 * f(1));
-    return { r, g, b: b2 };
+function calculate() {
+    const principal = parseFloat(document.getElementById('principal').value);
+    const annualAddition = parseFloat(document.getElementById('annualAddition').value);
+    const years = parseFloat(document.getElementById('years').value);
+    const rate = parseFloat(document.getElementById('rate').value) / 100;
+    const compound = parseFloat(document.getElementById('compound').value);
+
+    let amount = principal;
+    for (let i = 0; i < years; i++) {
+        amount = amount * (1 + rate/compound)**compound + annualAddition;
+    }
+    const interest = amount - principal - (annualAddition * years);
+    const roi = calculateROI(principal, annualAddition, years, amount);
+
+    document.getElementById('futureValue').innerHTML = `<span class="${amount >= 0 ? 'positive' : 'negative'}">$${formatNumber(amount.toFixed(2))}</span>`;
+    document.getElementById('totalInterest').innerHTML = `<span class="${interest >= 0 ? 'positive' : 'negative'}">$${formatNumber(interest.toFixed(2))}</span>`;
+    document.getElementById('roi').innerHTML = `<span class="${roi >= 0 ? 'positive' : 'negative'}">${roi.toFixed(2)}%</span>`;
 }
 
-function rgbToHex({ r, g, b }) {
-    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
+function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function updateColor() {
-    const hue = parseFloat(document.getElementById('hue').value);
-    const saturation = parseFloat(document.getElementById('saturation').value);
-    const brightness = parseFloat(document.getElementById('brightness').value);
+function calculateROI(principal, annualAddition, years, finalAmount) {
+    const totalInvestment = principal + (annualAddition * years);
+    const gain = finalAmount - totalInvestment;
+    const roi = (gain / totalInvestment) * 100;
+    return roi;
+}
+function createParticle(x, y) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    
+    // Make particles three times smaller overall
+    const baseSize = 2.33; // 4px / 3 = 1.33px
+    const randomScale = Math.random() * 0.5 + 0.5; // Random scale between 0.5 and 1
+    const size = baseSize * randomScale;
+    
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.left = `${x}px`;
+    particle.style.top = `${y}px`;
 
-    const rgb = hsbToRgb(hue, saturation, brightness);
-    const hexColor = rgbToHex(rgb);
+    const angle = Math.random() * Math.PI * 2;
+    const speed = Math.random() * 75 + 25; // Random speed between 25 and 100
+    const vx = Math.cos(angle) * speed;
+    const vy = Math.sin(angle) * speed;
 
-    const colorPreview = document.getElementById('colorPreview');
-    colorPreview.style.backgroundColor = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+    document.getElementById('particleContainer').appendChild(particle);
 
-    // Store the HEX color for copying
-    colorPreview.dataset.hex = hexColor;
+    let opacity = 1;
+    const animate = () => {
+        if (opacity <= 0) {
+            particle.remove();
+            return;
+        }
+
+        opacity -= 0.02;
+        particle.style.opacity = opacity;
+        particle.style.left = (parseFloat(particle.style.left) + vx * 0.016) + 'px';
+        particle.style.top = (parseFloat(particle.style.top) + vy * 0.016) + 'px';
+
+        requestAnimationFrame(animate);
+    };
+
+    animate();
+}
+let particleInterval;
+
+function emitParticles(button) {
+    const rect = button.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    for (let i = 0; i < 3; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * 20;
+        const x = centerX + Math.cos(angle) * distance;
+        const y = centerY + Math.sin(angle) * distance;
+
+        createParticle(x, y);
+    }
 }
 
-function copyHexToClipboard() {
-    const hexColor = document.getElementById('colorPreview').dataset.hex;
-    navigator.clipboard.writeText(hexColor).then(() => {
-        alert(`Copied HEX color: ${hexColor}`);
-    });
-}
-
-// Attach event listeners
-['hue', 'saturation', 'brightness'].forEach(id => {
-    document.getElementById(id).addEventListener('input', updateColor);
+document.querySelector('button').addEventListener('mouseenter', function(e) {
+    const button = e.currentTarget;
+    particleInterval = setInterval(() => emitParticles(button), 50); // Emit particles every 50ms
 });
-document.getElementById('copyButton').addEventListener('click', copyHexToClipboard);
 
-// Initialize with default color
-updateColor();
+document.querySelector('button').addEventListener('mouseleave', function() {
+   clearInterval(particleInterval);
+});
+
+document.querySelector('button').addEventListener('mousemove', function(e) {
+    const button = e.currentTarget;
+    const rect = button.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = (y - centerY) / 10;
+    const rotateY = (centerX - x) / 10;
+
+    const shadowX = (x - centerX) / 15;
+    const shadowY = (y - centerY) / 15;
+
+    button.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+    button.style.boxShadow = `${shadowX}px ${shadowY}px 20px rgba(153, 102, 255, 0.5)`;
+});
+
+document.querySelector('button').addEventListener('mouseleave', function(e) {
+    const button = e.currentTarget;
+    button.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+    button.style.boxShadow = '0 5px 15px rgba(153, 102, 255, 0.3)';
+});
+
+document.querySelector('button').addEventListener('click', function(e) {
+    const button = e.currentTarget;
+    button.style.animation = 'none';
+    button.offsetHeight; // Trigger reflow
+    button.style.animation = null;
+});
+
+document.querySelector('button').addEventListener('mousemove', function(e) {
+  const button = e.currentTarget;
+  const rect = button.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+
+  const rotateX = (y - centerY) / 10;
+  const rotateY = (centerX - x) / 10;
+
+  const shadowX = (x - centerX) / 15;
+  const shadowY = (y - centerY) / 15;
+
+  const highlightX = (x / rect.width) * 100;
+  const highlightY = (y / rect.height) * 100;
+
+  button.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+  button.style.boxShadow = `${shadowX}px ${shadowY}px 20px rgba(153, 102, 255, 0.5)`;
+  button.style.background = `radial-gradient(circle at ${highlightX}% ${highlightY}%, #b088ff, #9966ff)`;
+
+  emitParticles(e);
+});
+
+document.querySelector('button').addEventListener('mouseleave', function(e) {
+  const button = e.currentTarget;
+  button.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+  button.style.boxShadow = '0 5px 15px rgba(153, 102, 255, 0.3)';
+});
+document.querySelector('button').addEventListener('click', function(e) {
+    const button = e.currentTarget;
+    button.style.animation = 'none';
+    button.offsetHeight; // Trigger reflow
+    button.style.animation = null;
+});
 </script>
 </body>
 </html>
